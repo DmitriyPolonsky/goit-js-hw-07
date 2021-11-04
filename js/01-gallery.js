@@ -31,15 +31,29 @@ function onImageClick(event) {
         
     const srcLink = event.target.dataset.source;
     const instance = basicLightbox.create(
-        `<img src="${srcLink}" width="800" height="600">`
-    );
+        `<img src="${srcLink}" width="800" height="600">`,
+        {
+            onShow: (instance) => {
+                window.addEventListener("keydown", closeModal);
+            },
+            onClose: (instance) => {
+                window.removeEventListener("keydown", closeModal);
+            },
+        }
+        );
     instance.show();
- 
-    window.addEventListener("keydown", (event) => {
+
+    function closeModal (event){
         if (event.key === "Escape") {
             instance.close();
         };
-     } )
+    };
+    
+    // window.addEventListener("keydown", (event) => {
+    //     if (event.key === "Escape") {
+    //         instance.close();
+    //     };
+    // }
 };
 //
 console.log(galleryItems);
